@@ -1,6 +1,5 @@
 html {
   background-color: #f1f5f9;
-  font-family: sans-serif;
 }
 
 body {
@@ -9,6 +8,7 @@ body {
   max-width: 80ch;
   padding: 1rem;
   line-height: 1.5;
+  font-family: Inter;
 }
 
 * {
@@ -18,12 +18,22 @@ body {
 h1 {
   margin: 1rem 0;
   font-size: 2.5rem;
+  text-transform: uppercase;
 }
+
+h2 
 
 a {
   margin-right: 0.25rem;
 }
 
+.title {
+  text-transform: uppercase;
+}
+
+p.fields {
+  margin: 0.1rem 0;
+}
 
 /* nav styles */
 
