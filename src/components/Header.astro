@@ -1,0 +1,47 @@
+---
+import Navigation from './Navigation.astro';
+import Menu from './Menu.astro';
+
+const { "company-name": companyName } = Astro.props;
+---
+<style>
+ 
+  .header {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .company {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: hsl(281, 39%, 22%);
+  }
+
+  @media screen and (min-width: 636px) {
+    .header {
+      width: 100%;
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: stretch;
+    }
+
+    
+
+    nav {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end
+    }
+  }
+
+  
+</style>
+<div class="header">
+  <div class="company">{companyName}</div>
+  <Menu />
+  <nav class="nav-links">
+    <Navigation />
+  </nav>
+</div>
