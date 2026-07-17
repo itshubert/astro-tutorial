@@ -2,10 +2,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "./node_modules/.bin/astro dev",
-      "name": "Development server",
+      "name": "Astro Dev Server",
+      "type": "node",
       "request": "launch",
-      "type": "node-terminal"
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--inspect", "./node_modules/.bin/astro", "dev"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "pattern": "astro\\s+v?[0-9.]+ ready in",
+        "uriFormat": "http://localhost:4321"
+      }
     }
   ]
 }
