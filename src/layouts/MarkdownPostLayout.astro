@@ -1,43 +1,76 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
 const { frontmatter } = Astro.props;
-import '../styles/global.css';
+import "../styles/global.css";
 ---
+
 <BaseLayout pageTitle={frontmatter.title}>
-    <meta charset="utf-8" />
-    <style>
-      .controls {
-        display: flex;
-        width: 100%;
-        justify-content: flex-end;
+  <meta charset="utf-8" />
+  <style>
+    .controls {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
 
-        button {
-          margin: 0 0 1rem 0;
-          padding: 0.2rem 0.5rem;
-          border: 1 solid #aaa;
-          background-color: #efefef;
+      button {
+        margin: 0 0 1rem 0;
+        padding: 0.2rem 0.5rem;
+        border: 1 solid #aaa;
+        background-color: #efefef;
 
-          &:hover {
-            color: #fff;
-            background-color: purple;
-            cursor: pointer;
-          }
+        &:hover {
+          color: #fff;
+          background-color: purple;
+          cursor: pointer;
         }
       }
-    </style>
-    <div class="controls">
-      <button type="button" class="back">Back</button>
-    </div>
-    <img src={frontmatter.image.url} alt={frontmatter.image.alt} width="100%" />
-    <h3><em>{frontmatter.description}</em></h3>
-    <p class="fields">Published on: {frontmatter.pubDate.toString().slice(0,10)}</p>
-    <p class="fields">Written by {frontmatter.author}</p>
-    <slot />
-    <script>
-      const backButton = document.querySelector('.back');
-      
-      backButton?.addEventListener('click', () => {
-        window.history.back();
-      });
-    </script>
+    }
+  </style>
+  <div class="controls">
+    <button type="button" class="back">Back</button>
+  </div>
+  <img src={frontmatter.image.url} alt={frontmatter.image.alt} width="100%" />
+  <h3><em>{frontmatter.description}</em></h3>
+  <p class="fields">
+    Published on: {frontmatter.pubDate.toString().slice(0, 10)}
+  </p>
+  <p class="fields">Written by {frontmatter.author}</p>
+
+  <div class="tags">
+    {
+      frontmatter.tags.map((tag: string) => (
+        <p class="tag">
+          <a href={`/tags/${tag}`}>{tag}</a>
+        </p>
+      ))
+    }
+  </div>
+  <slot />
+
+  <style>
+    a {
+      color: #00539f;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      margin: 0.25em;
+      border: dotted 1px #a1a1a1;
+      border-radius: 0.5em;
+      padding: 0.5em 1em;
+      font-size: 1.15em;
+      background-color: #f8fcfd;
+    }
+  </style>
+  <script>
+    const backButton = document.querySelector(".back");
+
+    backButton?.addEventListener("click", () => {
+      window.history.back();
+    });
+  </script>
 </BaseLayout>

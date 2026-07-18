@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogPost from "../../components/BlogPost.astro";
 
+// A getStaticPaths function should always return a list of objects containing params (what to call each page route) and optionally any props (data that you want to pass to those pages).
 // For any dynamic route file (a filename with [brackets], like [tag].astro), Astro requires you to export a function named getStaticPaths.
 // Astro's internal router imports that module and invokes getStaticPaths() itself, during the build (or on-demand in dev) — before it ever renders the component.
 // It uses the returned array of { params, props } objects to know which static pages to generate (e.g. /tags/astro, /tags/community, etc.) and
@@ -9,25 +11,24 @@ export async function getStaticPaths() {
   const allPosts = Object.values(
     import.meta.glob("../posts/*.md", { eager: true }),
   );
+  const uniqueTags = [...new Set(allPosts.flatMap((post: any) => post.frontmatter.tags ?? []))];
 
-  return [
-    { params: { tag: "astro" }, props: { posts: allPosts } },
-    { params: { tag: "successes" }, props: { posts: allPosts } },
-    { params: { tag: "community" }, props: { posts: allPosts } },
-    { params: { tag: "blogging" }, props: { posts: allPosts } },
-    { params: { tag: "setbacks" }, props: { posts: allPosts } },
-    { params: { tag: "learning in public" }, props: { posts: allPosts } },
-  ];
+  return uniqueTags.map((tag) => ({
+    params: { tag },
+    props: {
+      posts: allPosts.filter((post: any) => post.frontmatter.tags?.includes(tag)),
+      title: `Posts tagged with ${tag}`,
+    },
+  }));
 }
 
 const { tag } = Astro.params;
-const { posts } = Astro.props;
-const filteredPosts = posts.filter((post: any) => post.frontmatter.tags?.includes(tag));
+const { posts, title } = Astro.props;
 ---
 
-<BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
+<BaseLayout pageTitle={title}>
+  <p>{title}</p>
   <ul>
-    {filteredPosts.map((post: any) => <li><a href={post.url}>{post.frontmatter.title}</a></li>)}
+    {posts.map((post: any) => <BlogPost url={post.url} title={post.frontmatter.title}/>)}
   </ul>
 </BaseLayout>
